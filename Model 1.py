@@ -1,64 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# Κακή Υλοποίηση ενός κακού μοντέλου. Αλλά νομίζω πως λειτουργεί:
-# 
-# Ορίζω ως:
-# 
-# $N$ Το σύνολο των χωρών που συμμετέχουν και $i$ η κάθε χώρα που συμμετέχει στο ETS. Η Σλοβακία έμεινε εκτός γιατί δεν έχω όλα τα data. 
-# 
-# $A$ το συνολικό allocation free αδειών για αυτή τη χρονιά.
-# 
-# $A_i$ το ζητούμενο allocation της κάθε χώρας.
-# 
-# $slope_i$ την κλίση της γραμμικής παλινδρόμησης μεταξύ GDP και BAU emissions.
-# 
-# $free_i$ free allocation of last year of country i  
-# 
-# $free_{x,i}$ free allocation of last year of country i of year x
-# 
-# $GDP{x,i}$ GDP per capita of country i of year x
-# 
-# $\overline{GDP_x}$ average GDP of year x
-# 
-# $pop_i$ population of country i  
-# 
-# $Utility_i = slope_i \times A_i$
-# 
-# 
-# Προσπαθούμε να λύσουμε το παρακάτω πρόβλημα γραμμικού προγραμματισμού:
-# 
-# $ maximaze(\sum_{ i \in N}{Utilities_i})$
-# 
-# c.t.
-# $A_i \leq 1.5 \times free_i$
-# 
-# $A_i \geq   free_i \times 0.5$
-# 
-# $\sum_{i \in N}{A_i} = A$ 
-# 
-# 
-# Ο υπολογισμός του w4 τελικά ήταν εντελώς λάθος και δεν χρησιμοποιήθηκε γιατί δεν ήταν καν συνεπείς οι περιορισμοί για τον simplex.
-# 
-# Αλλα για την ιστορία:
-# $K_i = (GDP_{x,i}- \overline{GDP_x)} - (GDP_{x-1,i}- \overline{GDP_{x-1}})$
-# 
-# $w4_i = \frac{\frac{pop_i}{max(pop_j)} - \frac{K_i}{max(K_j)}}{4} + 1, \forall j \in N $
-# 
-# 
-# 
-
-# In[66]:
 
 
-get_ipython().system('pip install numpy')
-get_ipython().system('pip install pandas')
-get_ipython().system('pip install matplotlib')
-get_ipython().system('pip install scipy')
-get_ipython().system('pip install mysql.connector')
-
-
-# In[67]:
+# get_ipython().system('pip install numpy')
+# get_ipython().system('pip install pandas')
+# get_ipython().system('pip install matplotlib')
+# get_ipython().system('pip install scipy')
+# get_ipython().system('pip install mysql.connector')
 
 
 import mysql.connector
@@ -71,8 +17,6 @@ from scipy import stats
 from scipy.optimize import linprog
 import pandas as pd
 
-
-# In[68]:
 
 
 #  DEFINITIONS
@@ -97,15 +41,8 @@ Need_diagrams_of_linear_regration = False # True if you want to see the diagrams
 
 Prediction_year = 2018 # must be between 
 
-
-# In[69]:
-
-
 def year(x):
     return x - 1960
-
-
-# In[70]:
 
 
 
@@ -138,8 +75,6 @@ print(countries_to_abbr.keys())
 print(countries_to_abbr, countries_without_slovakia)
 
 
-# In[71]:
-
 
 Population = {}
 with open('API_SP.POP.TOTL_DS2_en_csv_v2_3731322.csv', newline='') as csvfile:
@@ -156,9 +91,6 @@ with open('API_SP.POP.TOTL_DS2_en_csv_v2_3731322.csv', newline='') as csvfile:
 # print (Population[EUcountries[5]][-1:])
 
 
-# In[72]:
-
-
 def zero_if_none(x):
     if x == None or x =="":
         return 0
@@ -172,8 +104,6 @@ def zero_if_none(x):
         return float(x)
 
 
-# In[73]:
-
 
 def Normalize_dictionary(x):
     test = {}
@@ -185,8 +115,6 @@ def Normalize_dictionary(x):
         test[key] = -value/max  #Lingprog expects a minimize problem
     return test
 
-
-# In[74]:
 
 
 CO2_BAU_emissions = {}
@@ -200,8 +128,6 @@ with open('API_EN.ATM.CO2E.KT_DS2_en_csv_v2_3830791.csv', newline='') as csvfile
                 k.append(int(math.floor(float(zero_if_none(json.loads(row[4+year(i)])))))*1000)
             CO2_BAU_emissions[json.loads(row[0])]=k
 
-
-# In[75]:
 
 
 # Ektiposi random dedomenon gia elegxo
@@ -218,13 +144,9 @@ with open('API_EN.ATM.CO2E.KT_DS2_en_csv_v2_3830791.csv', newline='') as csvfile
 # ax.plot(x, y)
 
 
-# In[ ]:
 
 
 
-
-
-# In[76]:
 
 
 curs = cnx.cursor()
@@ -249,8 +171,6 @@ for i in range(len(EUcountries)):
             VerifiedEmissionsByYear[i][j][2] = -1
 
 
-# In[77]:
-
 
 if (Need_diagrams_of_random_data):
     x = np.array(range(first_year_of_calculation,last_year_of_calculation+1))
@@ -260,8 +180,6 @@ if (Need_diagrams_of_random_data):
     ax.set_title("Population By Year of " + EUcountries[Countrys_number_for_diagrams])
     ax.plot(x, y)
 
-
-# In[78]:
 
 
 if (Need_diagrams_of_random_data):
@@ -275,9 +193,6 @@ if (Need_diagrams_of_random_data):
     fig, ax = plt.subplots()
     ax.set_title("Verified Emissions By Year of " + EUcountries[Countrys_number_for_diagrams])
     ax.plot(x, y)
-
-
-# In[79]:
 
 
 #GDP Read
@@ -294,9 +209,6 @@ with open('API_NY.GDP.MKTP.CD_DS2_en_csv_v2_3840536.csv', newline='') as csvfile
 #     print (x, len(GDP[x]))
 
 # GDP sort by key
-
-
-# In[80]:
 
 
 # παμε για παλινδρόμηση από πακέτο ...
@@ -352,9 +264,6 @@ plt.legend()
 plt.show()
 
 
-# In[81]:
-
-
 def lin_reg(start,end):
     res_of_linear = {}
     slo ={}
@@ -394,9 +303,6 @@ def lin_reg(start,end):
     
 
 
-# In[82]:
-
-
 def create_table_of_slopes_for_differnt_periods_for_latex():
     res_1990_1995 = lin_reg(1990,1995)
     res_1996_2000 = lin_reg(1996,2000)
@@ -413,9 +319,6 @@ def create_table_of_slopes_for_differnt_periods_for_latex():
     # print(df)
     return df.to_latex()
 # create_table_of_slopes_for_differnt_periods_for_latex()
-
-
-# In[83]:
 
 
 # STUPID DATA CALCULATION
@@ -515,8 +418,6 @@ plt.legend()
 plt.show()
 
 
-# In[84]:
-
 
 # Calculate important data
 
@@ -561,8 +462,6 @@ for k in Free_allocation_2018:
     per_Free_allocation_2018[k] = Free_allocation_2018[k] / Sum_of_free_allocation_2018 *100
 
 
-# In[88]:
-
 
 # Data for simplex lingprog
 # print("len of per_Free_allocation_2018: ", len(Free_allocation_2018))
@@ -601,8 +500,6 @@ b_eq1 = Sum_of_free_allocation_2018
 #     print(b[i]> b[i+27])
 
 
-# In[89]:
-
 
 solution = linprog(c, A_ub=A, b_ub=b, A_eq = A_eq1, b_eq = b_eq1, method='simplex')
 
@@ -611,8 +508,6 @@ solution = linprog(c, A_ub=A, b_ub=b, A_eq = A_eq1, b_eq = b_eq1, method='simple
 # print('solution: ', solution)
 print('solution.x: ', solution.x)
 
-
-# In[90]:
 
 
 f2017 = {}
@@ -659,9 +554,6 @@ ax.legend(bbox_to_anchor=(1.1, 1.05))
 ax.set_title('Comparison of calculated and real free allocations Per Capita')
 plt.grid()
 plt.show()
-
-
-# In[ ]:
 
 
 
