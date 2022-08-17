@@ -2,7 +2,6 @@ library("DBI")
 library("RMariaDB")
 library("RMySQL")
 library("ggplot2")
-library("dplyr")
 library("broom")
 library("ggpubr")
 
