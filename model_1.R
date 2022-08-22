@@ -97,7 +97,7 @@ my_linear_regration <- function(xx, yy, start, end, disp_diagrams, country_name)
   y_data <- t(yy[row_y, start:end])
   colnames(x_data) <- c("x")
   colnames(y_data) <- c("y")
-  lm <- lm(y_data ~ x_data)
+  fit <- lm(y_data ~ x_data)
   # display the linear regression diagram
   if (disp_diagrams) {
 #create regression plot with customized style
@@ -105,17 +105,16 @@ my_linear_regration <- function(xx, yy, start, end, disp_diagrams, country_name)
     data <- data.frame(data)
     ggplot(data, aes(x <- x_data, y <= y_data)) +
       geom_point() +
-      geom_smooth(method='lm', se=FALSE, color='turquoise4') +
-      theme_minimal() +
-      labs(x='X Values', y='Y Values', title='Linear Regression Plot') +
-      theme(plot.title = element_text(hjust=0.5, size=20, face='bold')) 
+      geom_smooth(method='lm') +
+      labs(x='X Values', y='Y Values', title=paste("Linear regression diagram for ", country_name)) #+
+      # theme(plot.title = element_text(hjust=0.5, size=20, face='bold')) 
+    
+    plot(fit)
+    ggsave(paste("diagrams/", country_name, ".png", sep=""))
 
-    plot(lm)
-    title(paste("Linear regression diagram for ", country_name))
-    # legend(legend = c("Population", "Linear regression"))
     dev.off()
   }
-    return(lm)
+    return(fit)
 }
 
 
@@ -208,13 +207,12 @@ GDP_df <- subset(df, select = -c(2, 3, 4)) # nolint
 
 for (i in 1:length(country_names)) {
   if (country_names[i] == "Slovakia") {
-    lm <- linear_regression(GDP_df, CO2_bau_df, 1960, 2020, TRUE, "Slovak Republic")
-    continue
+    fit <- my_linear_regration(GDP_df, CO2_bau_df, 1960, 2020, TRUE, "Slovak Republic")
+    next
   }
-  lm <- my_linear_regration(GDP_df, CO2_bau_df, 1960, 2020, TRUE, country_names[i])
+  fit <- my_linear_regration(GDP_df, CO2_bau_df, 1960, 2020, TRUE, country_names[i])
   # save the linear regression model
-  # save(lm, file = paste("lm_",
-  # country_names[i], ".RData", sep = ""))
+  # save(fit, file = paste("lm_", country_names[i], ".RData", sep = ""))
 }
 
 
