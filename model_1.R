@@ -207,12 +207,15 @@ GDP_df <- subset(df, select = -c(2, 3, 4)) # nolint
 #perform the linear regression for each country.
 
 for (i in 1:length(country_names)) {
+  if (country_names[i] == "Slovakia") {
+    lm <- linear_regression(GDP_df, CO2_bau_df, 1960, 2020, TRUE, "Slovak Republic")
+    continue
+  }
   lm <- my_linear_regration(GDP_df, CO2_bau_df, 1960, 2020, TRUE, country_names[i])
   # save the linear regression model
   # save(lm, file = paste("lm_",
   # country_names[i], ".RData", sep = ""))
 }
-
 
 
 dbDisconnect(kanali) # close connection to database
