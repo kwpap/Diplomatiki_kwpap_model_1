@@ -1,3 +1,10 @@
+# install.packages("ggplot2")
+# install.packages("DBI")
+# install.packages("RMariaDB")
+# install.packages("RMySQL")
+# install.packages("broom")
+# install.packages("ggpubr")
+
 library("DBI")
 library("RMariaDB")
 library("RMySQL")
@@ -5,10 +12,11 @@ library("ggplot2")
 library("broom")
 library("ggpubr")
 
+
 # DEFINITIONS FOR DATABASE
 db <- "eu_ets"           # name of database
-use <- "sammy"           # user name
-passwor <- "password"     # password
+use <- "root"           # user name
+passwor <- ""     # password
 hos <- "localhost"       # host name
 
 # DEFINITIONS FOR MODEL
@@ -81,6 +89,10 @@ my_linear_regration <- function(xx, yy, start, end, disp_diagrams, country_name)
       break
     }
   }
+  if (start >= end) {
+    return(0)
+  }
+
   x_data <- t(xx[row_x, start:end])
   y_data <- t(yy[row_y, start:end])
   colnames(x_data) <- c("x")
@@ -100,7 +112,7 @@ my_linear_regration <- function(xx, yy, start, end, disp_diagrams, country_name)
 
     plot(lm)
     title(paste("Linear regression diagram for ", country_name))
-    legend(legend = c("Population", "Linear regression"))
+    # legend(legend = c("Population", "Linear regression"))
     dev.off()
   }
     return(lm)
@@ -195,9 +207,10 @@ GDP_df <- subset(df, select = -c(2, 3, 4)) # nolint
 #perform the linear regression for each country.
 
 for (i in 1:length(country_names)) {
-  lm <- my_linear_regration(GDP_df, CO2_bau_df, 2000, 2005, TRUE, country_names[i])
+  lm <- my_linear_regration(GDP_df, CO2_bau_df, 1960, 2020, TRUE, country_names[i])
   # save the linear regression model
-  # save(lm, file = paste("lm_", country_names[i], ".RData", sep = ""))
+  # save(lm, file = paste("lm_",
+  # country_names[i], ".RData", sep = ""))
 }
 
 
