@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/3163782288_927667232_223132457.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_880334680_2150282494.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_3440186313_1300242325.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_2765515810_3087054612.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_3666459384_1971420175.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_449969292_1857509653.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_1623378232_116477915.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_1088243851_743976729.mp4'
+file 'file:C:/Users/Kostas/Documents/GitHub/Diplomatiki_kwpap_model_1/media/videos/manim_test/480p15/partial_movie_files/BooleanOperations/2201830969_3922163245_2832986196.mp4'
